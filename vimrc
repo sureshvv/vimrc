@@ -1,5 +1,7 @@
 set nocompatible              " required
 filetype off                  " required
+set acd nows ic
+cabbr <expr> %% expand('%:p:h')
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -16,7 +18,8 @@ Plugin 'gmarik/Vundle.vim'
 
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'vim-scripts/indentpython.vim'
-Bundle 'Valloric/YouCompleteMe'
+Plugin 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
+" Bundle 'Valloric/YouCompleteMe'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'nvie/vim-flake8'
 Plugin 'jnurmine/Zenburn'
@@ -27,6 +30,8 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'tpope/vim-fugitive'
 Plugin 'ambv/black'
+Plugin 'tweekmonster/django-plus.vim'
+Plugin 'Glench/Vim-Jinja2-Syntax'
 
 
 
@@ -46,6 +51,9 @@ set foldlevel=99
 " Enable folding with the spacebar
 " nnoremap <space> za
 "
+map ,e :e <C-R>=expand("%:p:h") . "/" <CR>
+map ,t :tabe <C-R>=expand("%:p:h") . "/" <CR>
+map ,s :split <C-R>=expand("%:p:h") . "/" <CR>
 
 au BufNewFile,BufRead *.py
     \ set tabstop=4       |
@@ -58,10 +66,12 @@ au BufNewFile,BufRead *.py
 
 " au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
-au BufNewFile,BufRead *.js, *.html, *.css
+au BufNewFile,BufRead *.js, *.html, *.css, *.ts, *.tsx, *.jsx, *.vue
     \ set tabstop=2     |
     \ set softtabstop=2 |
     \ set shiftwidth=2  |
+    \ set expandtab     |
+    \ set autoindent    |
 
 set encoding=utf-8
 
@@ -101,4 +111,8 @@ let g:ycm_server_log_level = 'debug'
 " let g:pymode_rope = 1
 " let g:pymode_rope_completion = 1
 " let g:pymode_rope_complete_on_dot = 1
+autocmd Filetype htmldjango setlocal ts=2 sts=2 sw=2 expandtab
+autocmd Filetype vue setlocal ts=2 sts=2 sw=2 expandtab
+autocmd Filetype ts setlocal ts=2 sts=2 sw=2 expandtab
 
+let g:prettier#autoformat_require_pragma = 0
